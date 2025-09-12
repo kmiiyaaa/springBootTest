@@ -1,12 +1,15 @@
-package com.kmii.project.board;
+package com.kmii.project.answer;
 
 import java.time.LocalDateTime;
+
+import com.kmii.project.board.Board;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -17,23 +20,22 @@ import lombok.Setter;
 @AllArgsConstructor
 @Setter
 @Getter
+
 @Entity
-@Table(name="board") // 실제 매핑될 db 테이블 이름설정
-public class Board {
-	
+@Table(name="answertbl")
+public class Answer {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	private Integer bnum;
+	@GeneratedValue(strategy = GenerationType.IDENTITY )
+	private Integer id; // 기본키, 자동증가
 	
-	@Column(length = 200)
-	private String btitle;
+	@Column()
+	private String acontent;
 	
-	@Column(length = 500)
-	private String bcontent;
+	private LocalDateTime adate;
 	
-	private Integer bhit = 0;
-	
-	private LocalDateTime bdate;
+	// 댓글 : 게시글 = N:1
+	@ManyToOne
+	private Board board;
 
 }
