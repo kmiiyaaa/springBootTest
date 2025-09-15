@@ -1,11 +1,5 @@
-<!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="ko">
-<head>
-    <meta charset="UTF-8">
-    <title>문의 게시판</title>
-    <link rel="stylesheet" th:href="@{/css/board.css}">
-</head>
-<body>
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
     <div class="container">
         <h1>문의 게시판</h1>
 
@@ -48,5 +42,5 @@
             </tbody>
         </table>
     </div>
-</body>
+</div>
 </html>
