@@ -26,6 +26,7 @@
                     <td>
                         <a th:href="@{/board/detail/{bnum}(bnum=${board.bnum})}"
                            th:text="${board.btitle}">제목</a>
+                           <span th:if="${#lists.size(board.answerList)>0}" th:text="${'['+#lists.size(board.answerList)+']'}"></span>
                     </td>
                     <!--<td th:text="${board.writer}">작성자</td> -->
                     <td th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
