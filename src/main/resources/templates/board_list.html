@@ -21,8 +21,8 @@
             </thead>
             <tbody>
                 <!-- 타임리프 반복문 -->
-                <tr th:each="board, stat : ${paging}">
-                    <td th:text="${stat.count}">1</td>
+                <tr th:each="board, loop : ${paging}">
+                    <td th:text="${paging.getTotalElements - (paging.number*paging.size) - loop.index}"></td>
                     <td>
                         <a th:href="@{/board/detail/{bnum}(bnum=${board.bnum})}"
                            th:text="${board.btitle}">제목</a>
@@ -32,11 +32,6 @@
                                                 .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
                                                 'yyyy-MM-dd HH:mm')}">등록일</td>
                     <td th:text="${board.bhit}"></td>
-                </tr>
-                
-                <!-- 게시글이 없을 경우 -->
-                <tr th:if="${#lists.isEmpty(boardList)}">
-                    <td colspan="5" class="no-data">등록된 글이 없습니다.</td>
                 </tr>
                 
             </tbody>
