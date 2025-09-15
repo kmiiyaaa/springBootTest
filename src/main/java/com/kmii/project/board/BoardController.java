@@ -12,6 +12,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kmii.project.answer.AnswerForm;
+
 import jakarta.validation.Valid;
 
 @RequestMapping("/board")  //접두사
@@ -35,7 +37,7 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="/detail/{bnum}")
-	public String detail(Model model, @PathVariable("bnum") Integer bnum) {
+	public String detail(Model model, @PathVariable("bnum") Integer bnum, AnswerForm answerForm) {
 		
 		Board board = boardService.getBoard(bnum);
 		model.addAttribute("board", board); 

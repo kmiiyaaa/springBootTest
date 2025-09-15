@@ -1,0 +1,9 @@
+ <nav th:fragment="navbarFragment">
+    <div>
+        <a th:href="@{/}">Index</a>
+        <a th:href="@{/board/list}">게시판</a>
+        <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a> 
+		<a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+		<a class="nav-link" th:href="@{/user/signup}">회원가입</a>
+    </div>
+ </nav>

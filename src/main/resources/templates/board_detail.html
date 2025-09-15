@@ -7,26 +7,27 @@
 	<!--댓글 갯수 -->
 		<h5 th:text="|${#lists.size(board.answerList)}개의 답변이 있습니다.|">답변 갯수</h5>
 		
-		<!-- 질문 댓글들(반복) -->
-		<div th:each="answer : ${board.answerList}">
-			<a th:id="|answer_${answer.id}|"></a>
-			<div>
-				<div th:text="${answer.acontent}">답변글 내용</div>
-			
-				<div>
-				<!-- 댓글 글쓴이 / 등록일시 -->		
-					<div>
-						<div>
-							<span th:if="answer.author != null" th:text="${answer.author.username}"></span>
-						</div>						
-						<div th:text="${#temporals.format(answer.adate.atZone(T(java.time.ZoneId).of('UTC'))
-                                                .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-                                                'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
-					</div>
-				<!-- 답변 글쓴이 / 등록일시 끝! -->											
-				</div>
+	<!-- 질문 댓글들(반복) -->
+	<div th:each="answer : ${board.answerList}">
+    <a th:id="|answer_${answer.id}|"></a>
+    <div>
+        <div th:text="${answer.acontent}">답변글 내용</div>
+        <div>
+            <div>
+                <span th:if="${answer.author != null}" th:text="${answer.author.username}"></span>
+            </div>
+            <div th:text="${#temporals.format(answer.adate.atZone(T(java.time.ZoneId).of('UTC'))
+                                        .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+                                        'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
+	        </div>
+	    </div>
+	</div>
 
-
-
+	<!-- 답변 작성 -->
+		<form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post"> 
+			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+			<textarea th:field="*{acontent}" rows="10"></textarea>
+			<input type="submit" value="댓글 등록">
+		</form>	
 </div>
 </html>

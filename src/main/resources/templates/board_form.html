@@ -2,9 +2,7 @@
 <div layout:fragment="content">
 	<h4>질문 등록</h4>
 	<form th:action="@{/board/create}" th:object="${boardForm}" method="post">
-		<div role="alert" th:if="${#fields.hasAnyErrors()}">
-			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
-		</div>
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
 		<hr>
 		<div>
 			<label for="btitle">제목</label>
