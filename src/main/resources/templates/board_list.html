@@ -21,7 +21,7 @@
             </thead>
             <tbody>
                 <!-- 타임리프 반복문 -->
-                <tr th:each="board, stat : ${boardList}">
+                <tr th:each="board, stat : ${paging}">
                     <td th:text="${stat.count}">1</td>
                     <td>
                         <a th:href="@{/board/detail/{bnum}(bnum=${board.bnum})}"

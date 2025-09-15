@@ -3,6 +3,7 @@ package com.kmii.project.board;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -28,10 +29,10 @@ public class BoardController {
 	private BoardService boardService;
 	
 	@GetMapping(value="/list")
-	public String list(Model model) {  // 매개변수로 model 지정하면 객체가 자동으로 생성된다.
+	public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {  //첫페이지 = 0
 		
-		List<Board> boardList = boardService.getList();
-		model.addAttribute("boardList", boardList);
+		Page<Board> paging = boardService.getList(page);
+		model.addAttribute("paging", paging);
 		
 		return "board_list";
 	}

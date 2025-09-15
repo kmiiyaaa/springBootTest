@@ -4,6 +4,9 @@ import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import com.kmii.project.DataNotFoundException;
@@ -17,9 +20,10 @@ public class BoardService {
 	private final BoardRepository boardRepository;
 	
 	// 모든 게시글 가져오기
-	public List<Board> getList(){  
+	public Page<Board> getList(int page){  
 		
-		return boardRepository.findAll();
+		Pageable pageable = PageRequest.of(page, 10);
+		return boardRepository.findAll(pageable);
 		
 	}
 	
