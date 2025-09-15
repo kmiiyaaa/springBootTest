@@ -1,0 +1,16 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+	<h4>질문 등록</h4>
+	<form th:action="@{/board/create}" method="post">
+		<div>
+			<label for="btitle">제목</label>
+			<input type="text" name="btitle" id="btitle">
+		</div>
+		<div>
+			<label for="bcontent">내용</label>
+			<textarea rows="10" name="bcontent" id="bcontent"></textarea>
+		</div>
+		<input type="submit" value="글쓰기" >
+	</form>
+
+</div>

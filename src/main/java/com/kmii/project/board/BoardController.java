@@ -7,7 +7,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @RequestMapping("/board")  //접두사
 @Controller
@@ -36,6 +38,21 @@ public class BoardController {
 		model.addAttribute("board", board); 
 		
 		return "board_detail";
+		
+	}
+	
+	@GetMapping(value="/create")
+	public String boardCreate() {
+		return "board_form";
+	}
+	
+	@PostMapping(value="/create")
+	public String boardCreate(@RequestParam(value="btitle") String btitle, 
+			@RequestParam(value="bcontent") String bcontent) {
+		
+		boardService.create(btitle, bcontent);
+		
+		return "redirect:/board/list";  // 게시글 작성 후 게시글 리스트로 이동
 		
 	}
 	
