@@ -1,0 +1,27 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+	<h4>회원가입</h4>
+	<hr>
+	<form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post">
+		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
+		<div>
+			<label for="username">유저ID</label>
+			<input type="text" th:field="*{username}">
+		</div>
+		<div>
+			<label for="password1">비밀번호</label>
+			<input type="password" th:field="*{password1}">
+		</div>
+		<div>
+			<label for="password2">비밀번호 확인</label>
+			<input type="password2" th:field="*{password2}">
+		</div>
+		<div>
+			<label for="email">유저 이메일</label>
+			<input type="email" th:field="*{email}">
+		</div>
+		<button type="submit">회원 가입</button>
+		
+	</form>
+</div>
+</html>

@@ -16,7 +16,7 @@ import lombok.Setter;
 	@AllArgsConstructor
 	@NoArgsConstructor
 	@Entity
-	@Table(name = "siteuser") //실제로 매핑될 데이터베이스의 테이블 이름 설정
+	@Table(name = "usertbl") //실제로 매핑될 데이터베이스 테이블 이름 설정
 	public class SiteUser {
 		
 		@Id
