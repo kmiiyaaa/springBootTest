@@ -1,14 +1,18 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
 	<h4>질문 등록</h4>
-	<form th:action="@{/board/create}" method="post">
+	<form th:action="@{/board/create}" th:object="${boardForm}" method="post">
+		<div role="alert" th:if="${#fields.hasAnyErrors()}">
+			<div th:each="err : ${#fields.allErrors()}" th:text="${err}" />
+		</div>
+		<hr>
 		<div>
 			<label for="btitle">제목</label>
-			<input type="text" name="btitle" id="btitle">
+			<input type="text" th:field="*{btitle}"> <!-- th:field는 name/id="" 쓰지 않아도 된다 -->
 		</div>
 		<div>
 			<label for="bcontent">내용</label>
-			<textarea rows="10" name="bcontent" id="bcontent"></textarea>
+			<textarea rows="10" th:field="*{bcontent}"></textarea>
 		</div>
 		<input type="submit" value="글쓰기" >
 	</form>
