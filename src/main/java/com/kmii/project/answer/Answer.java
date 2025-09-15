@@ -2,6 +2,7 @@ package com.kmii.project.answer;
 
 import java.time.LocalDateTime;
 
+import com.kmii.project.user.SiteUser;
 import com.kmii.project.board.Board;
 
 import jakarta.persistence.Column;
@@ -37,5 +38,9 @@ public class Answer {
 	// 댓글 : 게시글 = N:1
 	@ManyToOne
 	private Board board;
+	
+	//N:1 -> 답변들 : 작성자 -> 작성자 한명이 답변 여러개 쓸 수 있으니까 -> @ManyToOne
+	@ManyToOne
+	private SiteUser author;  // 글쓴이
 
 }

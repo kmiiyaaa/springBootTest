@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <title>문의 게시판</title>
+    <link rel="stylesheet" th:href="@{/css/board.css}">
+</head>
+<body>
+    <div class="container">
+        <h1>문의 게시판</h1>
+
+        <!-- 글쓰기 버튼 -->
+        <div class="board-actions">
+            <a th:href="@{/board/create}" class="btn">글쓰기</a>
+        </div>
+
+        <!-- 게시판 테이블 -->
+        <table class="board-table">
+            <thead>
+                <tr>
+                    <th>번호</th>
+                    <th>제목</th>
+                    <th>작성자</th>
+                    <th>작성일</th>
+                    <th>조회수</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- 타임리프 반복문 -->
+                <tr th:each="board, stat : ${boardList}">
+                    <td th:text="${stat.count}">1</td>
+                    <td>
+                        <a th:href="@{/board/detail/{bnum}(bnum=${board.bnum})}"
+                           th:text="${board.btitle}">제목</a>
+                    </td>
+                    <!--<td th:text="${board.writer}">작성자</td> -->
+                    <td th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
+                                                .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+                                                'yyyy-MM-dd HH:mm')}">등록일</td>
+                    <td th:text="${board.bhit}"></td>
+                </tr>
+                
+                <!-- 게시글이 없을 경우 -->
+                <tr th:if="${#lists.isEmpty(boardList)}">
+                    <td colspan="5" class="no-data">등록된 글이 없습니다.</td>
+                </tr>
+                
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>
