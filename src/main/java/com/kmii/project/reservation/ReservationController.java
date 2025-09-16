@@ -69,14 +69,15 @@ public class ReservationController {
 	}
     
     
+    // 예약 리스트 조회
     @GetMapping("/list")
-    public String list(Model model) {
+    public String reservationList(Model model) {
         List<Reservation> reservations = reservationService.getList(); // Service 통해 호출
         model.addAttribute("reservations", reservations);
         return "reservation_list";
     }
     
-    
+
 
 
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -29,7 +30,7 @@ public class ReservationService {
 	// 모든 예약 리스트
 	public List<Reservation> getList() {
 		
-		return reservationRepository.findAll();	
+		return reservationRepository.findAll(Sort.by(Sort.Direction.DESC, "rtime"));	
 	}
 	
 	
