@@ -33,6 +33,14 @@
                                         .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
                                         'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
 	        </div>
+	        <div>
+				<a th:href="@{|/answer/modify/${answer.id}|}" sec:authorize="isAuthenticated()" 
+				th:if="${answer.author != null and #authentication.getPrincipal.getUsername() ==
+				answer.author.username}" th:text="수정"></a>
+				<a th:href="@{|/answer/delete/${answer.id}|}" class="delete" sec:authorize="isAuthenticated()" 
+				th:if="${answer.author != null and #authentication.getPrincipal.getUsername() ==
+				answer.author.username}" th:text="삭제"></a>
+			</div>
 			
 	    </div>
 	</div>
@@ -45,7 +53,7 @@
 			<textarea sec:authorize="isAuthenticated()" th:field="*{acontent}" rows="10"></textarea>
 			<input type="submit" value="댓글 등록">
 		</form>	
-</div>
+	</div>
 	<script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
 	Array.from(delete_elements).forEach(function (element) {
