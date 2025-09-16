@@ -65,4 +65,11 @@ private final BoardRepository boardRepository;
 		boardRepository.save(board);
 		
 	}
+	
+	//게시글 삭제
+	public void delete(Board board) {
+		boardRepository.delete(board);
+	}
+	
+	
 }
