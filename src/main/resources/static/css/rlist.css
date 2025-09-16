@@ -10,6 +10,13 @@
     overflow: hidden;
 }
 
+.rlist-title {
+	text-align: center;
+	color :  rgb(61, 112, 154);
+	font-family: "Gaegu", sans-serif;
+	font-size: 25px;
+}
+
 /* 테이블 헤더 */
 .rlist-table thead {
     background: #ffe6d6;
