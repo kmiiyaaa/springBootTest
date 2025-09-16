@@ -1,4 +1,6 @@
-<html layout:decorate="~{layout}">
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security"
+      layout:decorate="~{layout}">
 <div layout:fragment="content">
 	
 	<h1 th:text="${board.btitle}"></h1>
@@ -65,19 +67,20 @@
 			
 	    </div>
 	</div>
+</form>	
+		 <!-- 댓글 작성 폼 -->
+    <sec:authorize access="isAuthenticated()">
+        <form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post">
+            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+            <textarea th:field="*{acontent}" rows="5" placeholder="댓글 내용을 입력하세요."></textarea>
+            <input type="submit" value="댓글 등록">
+        </form>
+    </sec:authorize>
 
-	<!-- 답변 작성 -->
-		<form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post"> 
-    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-    
-    <!-- 로그인 안 했으면 비활성화 + 안내 메시지 -->
-    <textarea th:field="*{acontent}" rows="10"
-              th:disabled="${#authorization.expression('isAnonymous()')}"></textarea>
-    
-    
-    <input type="submit" value="댓글 등록" sec:authorize="isAuthenticated()">
-</form>
-		
+    <!-- 로그인 안 했을 때 안내 -->
+    <sec:authorize access="isAnonymous()">
+        <p>댓글을 작성하려면 로그인 후 이용해주세요.</p>
+    </sec:authorize>
 	</div>
 	
 	<script layout:fragment="script" type='text/javascript'>

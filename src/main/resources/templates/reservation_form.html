@@ -1,0 +1,54 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+
+<h3>예약하기</h3>
+
+<form th:action="@{/reservation/create}" th:object="${reservationForm}" method="post">
+
+    <div>
+	    <label>예약자</label>
+	    <span th:text="${username}"></span>
+	</div>
+    <div>
+        <label for="rdate">예약 날짜</label>
+        <input type="date" th:field="*{rdate}" id="rdate" required>
+    </div>
+
+    <div>
+        <label for="rtime">예약 시간</label>
+        <input type="time" th:field="*{rtime}" id="rtime" required>
+    </div>
+
+    <button type="submit">예약하기</button>
+</form>
+
+</div>
+
+<script>
+    const dateInput = document.getElementById("rdate");
+    const timeInput = document.getElementById("rtime");
+
+    const now = new Date();
+    const oneMonthLater = new Date();
+    oneMonthLater.setMonth(now.getMonth() + 1);
+
+    const todayStr = now.toISOString().split("T")[0];
+    const maxStr = oneMonthLater.toISOString().split("T")[0];
+
+    dateInput.min = todayStr;
+    dateInput.max = maxStr;
+
+    // 날짜 선택 시 시간 제한 처리
+    dateInput.addEventListener("change", function () {
+        if (dateInput.value === todayStr) {
+            // 오늘 날짜면 현재 시간 이후만 선택 가능
+            const hours = now.getHours().toString().padStart(2, "0");
+            const minutes = now.getMinutes().toString().padStart(2, "0");
+            timeInput.min = `${hours}:${minutes}`;
+        } else {
+            // 내일 이후면 자정부터 가능
+            timeInput.min = "00:00";
+        }
+    });
+</script>
+</html>

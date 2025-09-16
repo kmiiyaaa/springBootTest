@@ -1,0 +1,18 @@
+<html layout:decorate="~{layout}">
+<div layout:fragment="content">
+
+
+      <h2>회원 정보</h2>
+      <div>
+      <p><strong>아이디:</strong> <span th:text="${user.username}"></span></p>
+      <p><strong>비밀번호:</strong> <span th:text="${user.password}"></span></p>
+      <p><strong>이메일:</strong> <span th:text="${user.email}"></span></p>
+      </div>
+
+      <a th:href="@{/user/edit/{id}}">회원정보 수정</a>
+      <a th:href="@{/}">홈으로</a>
+
+
+
+</div>
+</html>
