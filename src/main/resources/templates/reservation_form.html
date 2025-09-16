@@ -23,12 +23,12 @@
 </form>
 
 </div>
-
 <script>
     const dateInput = document.getElementById("rdate");
     const timeInput = document.getElementById("rtime");
 
     const now = new Date();
+    const oneHourLater = new Date(now.getTime() + 60*60*1000); // 1시간 뒤
     const oneMonthLater = new Date();
     oneMonthLater.setMonth(now.getMonth() + 1);
 
@@ -41,14 +41,24 @@
     // 날짜 선택 시 시간 제한 처리
     dateInput.addEventListener("change", function () {
         if (dateInput.value === todayStr) {
-            // 오늘 날짜면 현재 시간 이후만 선택 가능
-            const hours = now.getHours().toString().padStart(2, "0");
-            const minutes = now.getMinutes().toString().padStart(2, "0");
+            // 오늘 날짜면 현재 시간 + 1시간 이후만 선택 가능
+            let hours = oneHourLater.getHours().toString().padStart(2, "0");
+            let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
             timeInput.min = `${hours}:${minutes}`;
         } else {
             // 내일 이후면 자정부터 가능
             timeInput.min = "00:00";
         }
+        timeInput.value = timeInput.min; // 기본값 설정
     });
+
+    // 페이지 로드 시 오늘 날짜라면 시간 제한 적용
+    if (dateInput.value === "" || dateInput.value === todayStr) {
+        let hours = oneHourLater.getHours().toString().padStart(2, "0");
+        let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
+        timeInput.min = `${hours}:${minutes}`;
+        timeInput.value = timeInput.min;
+    }
 </script>
+</html>
 </html>

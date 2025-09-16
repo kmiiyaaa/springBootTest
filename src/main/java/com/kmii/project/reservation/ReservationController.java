@@ -20,6 +20,7 @@ import com.kmii.project.user.UserService;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import net.bytebuddy.asm.Advice.OffsetMapping.Sort;
 
 @Controller
 @RequestMapping("/reservation")
@@ -31,14 +32,7 @@ public class ReservationController {
 	@Autowired
 	private UserService userService;
     
-    
-    @GetMapping("/list")
-    public String list(Model model) {
-    	model.addAttribute("reservation", reservationService.getList());
-    	return "reservation_list";
-    }
-    
-    
+   
     @PreAuthorize("isAuthenticated()")
     @GetMapping("/create")
     public String showReservationForm(Model model, Principal principal) {
@@ -73,6 +67,16 @@ public class ReservationController {
 	
 	return "redirect:/reservation/list";
 	}
+    
+    
+    @GetMapping("/list")
+    public String list(Model model) {
+        List<Reservation> reservations = reservationService.getList(); // Service 통해 호출
+        model.addAttribute("reservations", reservations);
+        return "reservation_list";
+    }
+    
+    
 
 
 }

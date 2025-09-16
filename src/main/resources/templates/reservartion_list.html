@@ -3,9 +3,33 @@
 
 	<h3>예약 리스트</h3>
 	
-	예약자
-	예약일시
-	예약상태 - RESERVED, CANCELLED (enum)
+	
+	<tr>
+		<th>번호</th>
+	    <th>예약자</th>
+	    <th>예약일</th>
+	    <th>예약 수정/취소</th>
+    <tr>
+    
+    <!-- 예약리스트 반복 -->
+     <tr th:each="reservation, loop : ${reservations}">
+   		 <td th:text="${loop.index + 1}"></td>
+         <td><span th:if="${reservation.user != null}" th:text="${reservation.user.username}"></span></td>
+          <td th:text="${#temporals.format(reservation.rtime, 'yyyy-MM-dd HH:mm')}"></td>
+         <td>
+         	<div>
+	         	<a th:href="@{|/reservation/modify/${reservation.id}|}" sec:authorize="isAuthenticated()" 
+					th:if="${reservation.user != null and #authentication.getPrincipal.getUsername() ==
+					answer.author.username}" th:text="수정">
+				</a>
+				<a th:href="@{|/reservation/delete/${reservaion.id}|}" class="delete" sec:authorize="isAuthenticated()" 
+					th:if="${reservation.user != null and #authentication.getPrincipal.getUsername() ==
+					answer.author.username}" th:text="삭제">
+				</a>
+			</div>
+		</td>
+     </tr>
+    
 
 </div>
 </html>
