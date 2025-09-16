@@ -16,14 +16,15 @@ public class AnswerService {
 	@Autowired
 	private AnswerRepository answerRepository;
 	
-	public void create(Board board, String acontent, SiteUser author) {
+	public Answer create(Board board, String acontent, SiteUser author) {
 		
 		Answer answer = new Answer();
 		answer.setAcontent(acontent);
 		answer.setAdate(LocalDateTime.now());
 		answer.setBoard(board);
 		answer.setAuthor(author);
-		answerRepository.save(answer);		
+		answerRepository.save(answer);	
+		return answer;
 		
 	}
 	

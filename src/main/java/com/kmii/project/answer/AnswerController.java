@@ -48,9 +48,8 @@ public class AnswerController {
 			model.addAttribute("board", board);
 			return "board_detail";
 		} 
-		
-		answerService.create(board, answerForm.getAcontent(),siteUser); //principal 객체를 통해 사용자명을 얻은 후 , siteUser 객체를 얻어 답변등록에 사용
-		return String.format("redirect:/board/detail/%s", bnum);
+		Answer answer = answerService.create(board, answerForm.getAcontent(),siteUser); //principal 객체를 통해 사용자명을 얻은 후 , siteUser 객체를 얻어 답변등록에 사용
+		return String.format("redirect:/board/detail/%s#answer_%s", bnum , answer.getId());
 	}
 	
 	
@@ -82,7 +81,7 @@ public class AnswerController {
 		}
 		
 		answerService.modify(answer, answerForm.getAcontent());
-		return String.format("redirect:/board/detail/%s", answer.getBoard().getBnum());
+		return String.format("redirect:/board/detail/%s#answer_%s", answer.getBoard().getBnum(), answer.getId());
 		
 	}
 	
@@ -97,7 +96,7 @@ public class AnswerController {
 		}
 		
 		answerService.delete(answer);
-		return String.format("redirect:/board/detail/%s", answer.getBoard().getBnum());
+		return String.format("redirect:/board/detail/%s#answer_%s", answer.getBoard().getBnum(),answer.getId());
 		
 	}
 	
