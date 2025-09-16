@@ -1,22 +1,31 @@
- <nav th:fragment="navbarFragment">
-    <div>
-        <a th:href="@{/}">Index</a>
-        <a th:href="@{/board/list}">게시판</a>
+<nav th:fragment="navbarFragment" class="navbar">
+   
+	<!-- 왼쪽 환영 메시지 -->
+	   <div sec:authorize="isAuthenticated()" class="welcome-message">
+	       🍰Welcome, <b sec:authentication="name"></b>🍰
+	   </div>
+	
+	 <!-- 가운데 타이틀 -->
+    <div class="navbar-title">
+        <a th:href="@{/}">Cake Pick Up!</a>
+    </div>
 
-        <!-- 비로그인 사용자 -->
-        <a sec:authorize="isAnonymous()" th:href="@{/user/login}">로그인</a>
-        <a sec:authorize="isAnonymous()" th:href="@{/user/signup}">회원가입</a>
+    <!-- 오른쪽 메뉴 -->
+    <div class="navbar-menu">
+        <a th:href="@{/}">HOME</a>|
+        <a th:href="@{/board/list}">Q/A</a>|
 
         <!-- 로그인한 사용자 -->
         <span sec:authorize="isAuthenticated()">
-       		| 환영합니다, <b sec:authentication="name"></b>님 |
-            <a th:href="@{/reservation/create}" style="text-decoration: none;">
-             예약하기
-            </a>
-            <a th:href="@{/user/mypage}" style="text-decoration: none;">
-             회원정보 
-            </a>
+            <a th:href="@{/reservation/create}">RESERVATION</a>|
+            <a th:href="@{/user/logout}">LOGOUT</a>
         </span>
-        <a sec:authorize="isAuthenticated()" th:href="@{/user/logout}">로그아웃</a>
+
+        <!-- 비로그인 사용자 -->
+        <span sec:authorize="isAnonymous()">
+            <a th:href="@{/user/login}">LOGIN</a>|
+            <a th:href="@{/user/signup}">SIGN UP</a>
+        </span>
+
     </div>
 </nav>

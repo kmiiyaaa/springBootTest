@@ -1,6 +1,17 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
 
+	<div class="container mx-auto mt-10 flex flex-col items-center space-y-6">
+	    
 
+	    <div class="flex space-x-6 mt-6">
+	        <a th:href="@{/reservation/create}" class="bg-[#e6c5d0] hover:bg-[#ca9eab] text-white px-8 py-4 rounded-lg shadow-md transition duration-300">
+	            예약하기
+	        </a>
+	        <a th:href="@{/board/list}" class="bg-[#e6c5d0] hover:bg-[#ca9eab] text-white px-8 py-4 rounded-lg shadow-md transition duration-300">
+	            문의게시판
+	        </a>
+	    </div>
+	</div>
 </div>
 </html>

@@ -1,19 +1,23 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
+	<div class="reservation-container">
+	    <h3>로그인</h3>
 
-	<form th:action="@{/user/login}" method="post">
-		<div th:if="${param.error}">
-			<div>사용자 ID또는 비밀번호를 다시 확인해주세요.</div>
-		</div>
-		<div>
-			<label for="username">사용자ID</label>
-			<input type="text" name="username" id = "username">
-		</div>
-		<div>
-			<label for="password">비밀번호</label>
-			<input type="password" name="password" id = "password">
-		</div>
-		<button type="submit">로그인</button>
-	</form>
+		<form th:action="@{/user/login}" method="post">
+		    <div class="form-group-horizontal">
+		        <label for="username">아이디  </label>
+		        <input type="text" id="username" name="username" />
+		    </div>
+		    <div class="form-group-horizontal">
+		        <label for="password">비밀번호</label>
+		        <input type="password" id="password" name="password" />
+		    </div>
+
+		    <div class="button-group">
+		        <button type="submit" class="submit-loginbtn">LOGIN</button>
+		        <a th:href="@{/user/signup}" class="signup-btn">SIGN UP</a>
+		    </div>
+		</form>
+	</div>
 </div>
 </html>

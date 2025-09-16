@@ -1,64 +1,66 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
+	<div class="reservation-container">
+	        <h3>픽업 예약</h3>
 
-<h3>예약하기</h3>
+	        <form th:action="@{/reservation/create}" th:object="${reservationForm}" method="post" class="reservation-form">
 
-<form th:action="@{/reservation/create}" th:object="${reservationForm}" method="post">
+	            <!-- 예약자 -->
+	            <div class="form-group">
+	                <label>예약자</label>
+	                <span th:text="${username}" class="username-display"></span>
+	            </div>
 
-    <div>
-	    <label>예약자</label>
-	    <span th:text="${username}"></span>
+	            <!-- 예약 날짜 -->
+	            <div class="form-group">
+	                <label for="rdate">예약 날짜</label>
+	                <input type="date" th:field="*{rdate}" id="rdate" required>
+	            </div>
+
+	            <!-- 예약 시간 -->
+	            <div class="form-group">
+	                <label for="rtime">예약 시간</label>
+	                <input type="time" th:field="*{rtime}" id="rtime" required>
+	            </div>
+
+	            <button type="submit" class="submit-btn">예약하기</button>
+	        </form>
+	    </div>
+
 	</div>
-    <div>
-        <label for="rdate">예약 날짜</label>
-        <input type="date" th:field="*{rdate}" id="rdate" required>
-    </div>
 
-    <div>
-        <label for="rtime">예약 시간</label>
-        <input type="time" th:field="*{rtime}" id="rtime" required>
-    </div>
+	<!-- 날짜/시간 JS -->
+	<script>
+	const dateInput = document.getElementById("rdate");
+	const timeInput = document.getElementById("rtime");
 
-    <button type="submit">예약하기</button>
-</form>
+	const now = new Date();
+	const oneHourLater = new Date(now.getTime() + 60*60*1000);
+	const oneMonthLater = new Date();
+	oneMonthLater.setMonth(now.getMonth() + 1);
 
-</div>
-<script>
-    const dateInput = document.getElementById("rdate");
-    const timeInput = document.getElementById("rtime");
+	const todayStr = now.toISOString().split("T")[0];
+	const maxStr = oneMonthLater.toISOString().split("T")[0];
 
-    const now = new Date();
-    const oneHourLater = new Date(now.getTime() + 60*60*1000); // 1시간 뒤
-    const oneMonthLater = new Date();
-    oneMonthLater.setMonth(now.getMonth() + 1);
+	dateInput.min = todayStr;
+	dateInput.max = maxStr;
 
-    const todayStr = now.toISOString().split("T")[0];
-    const maxStr = oneMonthLater.toISOString().split("T")[0];
+	dateInput.addEventListener("change", function () {
+	    if (dateInput.value === todayStr) {
+	        let hours = oneHourLater.getHours().toString().padStart(2, "0");
+	        let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
+	        timeInput.min = `${hours}:${minutes}`;
+	    } else {
+	        timeInput.min = "00:00";
+	    }
+	    timeInput.value = timeInput.min;
+	});
 
-    dateInput.min = todayStr;
-    dateInput.max = maxStr;
-
-    // 날짜 선택 시 시간 제한 처리
-    dateInput.addEventListener("change", function () {
-        if (dateInput.value === todayStr) {
-            // 오늘 날짜면 현재 시간 + 1시간 이후만 선택 가능
-            let hours = oneHourLater.getHours().toString().padStart(2, "0");
-            let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
-            timeInput.min = `${hours}:${minutes}`;
-        } else {
-            // 내일 이후면 자정부터 가능
-            timeInput.min = "00:00";
-        }
-        timeInput.value = timeInput.min; // 기본값 설정
-    });
-
-    // 페이지 로드 시 오늘 날짜라면 시간 제한 적용
-    if (dateInput.value === "" || dateInput.value === todayStr) {
-        let hours = oneHourLater.getHours().toString().padStart(2, "0");
-        let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
-        timeInput.min = `${hours}:${minutes}`;
-        timeInput.value = timeInput.min;
-    }
-</script>
-</html>
-</html>
+	if (dateInput.value === "" || dateInput.value === todayStr) {
+	    let hours = oneHourLater.getHours().toString().padStart(2, "0");
+	    let minutes = oneHourLater.getMinutes().toString().padStart(2, "0");
+	    timeInput.min = `${hours}:${minutes}`;
+	    timeInput.value = timeInput.min;
+	}
+	</script>
+	</html>

@@ -1,0 +1,198 @@
+/* 전체 예약 컨테이너 */
+.reservation-container {
+    max-width: 500px;
+    margin: 40px auto;
+    padding: 25px 20px;
+    background: #fffaf6;
+    border-radius: 12px;
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+    
+}
+
+/* 제목 */
+.reservation-container h3 {
+    text-align: center;
+    color: rgb(0, 0, 64);
+    margin-bottom: 25px;
+    font-size: 23px;
+	font-family: "Gaegu", sans-serif;
+	
+}
+
+/* 폼 그룹 */
+.reservation-form .form-group {
+    margin-bottom: 18px;
+}
+.reservation-form label {
+    display: block;
+    margin-bottom: 6px;
+    font-weight: bold;
+    color: #555;
+}
+.reservation-form input[type="date"],
+.reservation-form input[type="time"] {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ffe6d6;
+    border-radius: 8px;
+    font-family: sans-serif;
+    font-size: 16px;
+}
+.username-display {
+    display: inline-block;
+    padding: 8px 12px;
+    background: #ffecf0;
+    border-radius: 8px;
+    font-weight: bold;
+    color: rgb(128, 128, 128);
+}
+
+/* 제출 버튼 */
+.submit-btn {
+    width: 80%;
+	text-align: center;
+    padding: 12px 0;
+    background: #ffb6b9;
+    color: white;
+    font-size: 18px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+	
+	/* 가운데 정렬 추가 */
+	    display: block;   /* 버튼을 블록 요소로 변경 */
+	    margin: 0 auto;   /* 좌우 마진 자동 */
+}
+.submit-btn:hover {
+    background: #ff8a8a;
+}
+
+/* 로그인 & 회원가입 버튼 컨테이너 */
+.button-group {
+    display: flex;
+    justify-content: center; /* 중앙 정렬 */
+    gap: 10px;               /* 버튼 사이 간격 */
+    margin-top: 20px;
+}
+
+/* 로그인 버튼 */
+.submit-loginbtn {
+    flex: 1; /* 버튼 동일 너비로 자동 조절 */
+    padding: 12px 0;
+    background: #ffb6b9;
+    color: white;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.submit-loginbtn:hover {
+    background: #ff8a8a;
+}
+
+/* 회원가입 버튼 */
+.submit-loginbtn,
+.signup-btn {
+    flex: 1;
+	width: 50%; 
+    padding: 12px 0;
+    background: #ffd6d9;
+    color: #333;
+    font-size: 15px;
+    font-weight: bold;
+    border: none;
+    border-radius: 10px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    transition: background 0.3s;
+}
+
+.signup-btn:hover {
+    background: #ffb6b9;
+}
+
+/* 입력창 가로 길이 절반으로 */
+.form-group-horizontal input {
+    flex: 1; /* 라벨 옆 공간 채우기 */
+    max-width: 50%; /* 절반 너비 제한 */
+    padding: 8px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    font-size: 14px;
+}
+
+.form-group-horizontal input:focus {
+    border-color: #ffb6b9;
+    box-shadow: 0 0 6px rgba(255,182,185,0.4);
+    outline: none;
+}
+
+.form-group-horizontal {
+    display: flex;
+    align-items: center; /* 수직 중앙 정렬 */
+    gap: 12px;           /* 라벨과 입력창 간격 */
+    margin-bottom: 20px; /* 줄 간격 */
+}
+
+.form-group-horizontal label {
+    width: 80px;         /* 라벨 고정 폭 */
+	font-size: 20px;
+	font-weight: bold;
+	font-family: "Gaegu", sans-serif;
+    text-align: center;   /* 라벨 글씨 오른쪽 정렬 */
+}
+
+
+/* 입력창 스타일 */
+.form-group-horizontal input[type="text"],
+.form-group-horizontal input[type="password"],
+.form-group-horizontal input[type="email"] {
+    flex: 1;
+	align-items: center;
+    padding: 5px 10px;
+    border: 2px solid #ffe6d6;
+    border-radius: 12px;
+    font-size: 16px;
+    transition: 0.3s;
+}
+
+.form-group-horizontal input[type="text"]:focus,
+.form-group-horizontal input[type="password"]:focus,
+.form-group-horizontal input[type="email"]:focus {
+    border-color: #ffb6b9;
+    box-shadow: 0 0 6px rgba(255, 182, 185, 0.4);
+    outline: none;
+}
+
+/* 오류 메시지 */
+.form-error {
+    margin-bottom: 12px;
+    color: #ff6f61;
+    font-weight: bold;
+    background: #fff0f0;
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #ffb6b9;
+}
+
+/* 반응형 */
+@media (max-width: 500px) {
+    .reservation-container {
+        padding: 20px 15px;
+    }
+    .reservation-form input[type="date"],
+    .reservation-form input[type="time"] {
+        font-size: 14px;
+        padding: 8px;
+    }
+    .submit-btn {
+        font-size: 16px;
+        padding: 10px 0;
+    }
+}
