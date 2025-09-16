@@ -85,4 +85,21 @@ public class AnswerController {
 		return String.format("redirect:/board/detail/%s", answer.getBoard().getBnum());
 		
 	}
+	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/delete/{bnum}")
+	public String answerDelete(Principal principal, @PathVariable("bnum") Integer bnum) {
+		
+		Answer answer = answerService.getAnswer(bnum);
+		
+		if(!answer.getAuthor().getUsername().equals(principal.getName())) {
+			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 없습니다");
+		}
+		
+		answerService.delete(answer);
+		return String.format("redirect:/board/detail/%s", answer.getBoard().getBnum());
+		
+	}
+	
+	
 }
