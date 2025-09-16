@@ -12,6 +12,7 @@ import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
 import com.kmii.project.DataNotFoundException;
+import com.kmii.project.user.SiteUser;
 
 import lombok.RequiredArgsConstructor;
 
@@ -19,7 +20,7 @@ import lombok.RequiredArgsConstructor;
 @Service
 public class BoardService {
 	
-	private final BoardRepository boardRepository;
+private final BoardRepository boardRepository;
 	
 	// 모든 게시글 가져오기
 	public Page<Board> getList(int page){  
@@ -44,14 +45,24 @@ public class BoardService {
 	}
 	
 	// 게시글 작성
-	public void create(String btitle, String bcontent) {
+	public void create(String btitle, String bcontent, SiteUser user) {
 		
 		Board board = new Board();
 		board.setBtitle(btitle);
 		board.setBcontent(bcontent);
 		board.setBdate(LocalDateTime.now());
+		board.setAuthor(user);
 		boardRepository.save(board);
 		
 	}
-
+	
+	// 게시글 수정
+	public void modify(Board board, String btitle, String bcontent) {
+		
+		board.setBtitle(btitle);
+		board.setBcontent(bcontent);
+		board.setMdate(LocalDateTime.now());
+		boardRepository.save(board);
+		
+	}
 }

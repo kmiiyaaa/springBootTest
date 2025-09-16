@@ -1,10 +1,13 @@
 package com.kmii.project.user;
 
+import java.util.Optional;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import com.kmii.project.DataNotFoundException;
 import com.kmii.project.board.BoardRepository;
 
 import lombok.RequiredArgsConstructor;
@@ -28,6 +31,15 @@ public class UserService {
 		userRepository.save(user);
 		return user;
 		
+	}
+	
+	public SiteUser getUser(String username) {  // siteUser 조회 하는 메서드
+		Optional<SiteUser> siteUser = this.userRepository.findByUsername(username);
+		if(siteUser.isPresent()) {
+			return siteUser.get();
+		} else {
+			throw new DataNotFoundException("siteuser not found");
+		}
 	}
 
 }

@@ -39,8 +39,10 @@ public class Answer {
 	@ManyToOne
 	private Board board;
 	
-	//N:1 -> 답변들 : 작성자 -> 작성자 한명이 답변 여러개 쓸 수 있으니까 -> @ManyToOne
+	//답변들 : 작성자 -> N:1 ->  작성자 한명이 답변 여러개 쓸 수 있으니까
 	@ManyToOne
 	private SiteUser author;  // 글쓴이
+		
+	private LocalDateTime mdate;
 
 }

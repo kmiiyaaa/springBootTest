@@ -13,7 +13,7 @@
             <thead>
                 <tr>
                     <th>번호</th>
-                    <th>제목</th>
+                    <th style="width:50%">제목</th>
                     <th>작성자</th>
                     <th>작성일</th>
                     <th>조회수</th>
@@ -28,7 +28,7 @@
                            th:text="${board.btitle}">제목</a>
                            <span th:if="${#lists.size(board.answerList)>0}" th:text="${'['+#lists.size(board.answerList)+']'}"></span>
                     </td>
-                    <!--<td th:text="${board.writer}">작성자</td> -->
+                    <td><span th:if="${board.author != null}" th:text="${board.author.username}"></span></td>
                     <td th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
                                                 .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
                                                 'yyyy-MM-dd HH:mm')}">등록일</td>

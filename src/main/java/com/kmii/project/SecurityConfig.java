@@ -40,4 +40,10 @@ public class SecurityConfig {
 	PasswordEncoder passwordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
+	
+	@Bean
+	AuthenticationManager authenticationManager(AuthenticationConfiguration authenticationConfiguration)  //authenticationManager : 스프링시큐리티의 인증을 처리
+			throws Exception {
+		return authenticationConfiguration.getAuthenticationManager();
+	}
 }
