@@ -1,6 +1,7 @@
 package com.kmii.project.answer;
 
 import java.time.LocalDateTime;
+import java.util.Set;
 
 import com.kmii.project.user.SiteUser;
 import com.kmii.project.board.Board;
@@ -10,6 +11,7 @@ import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
@@ -44,5 +46,11 @@ public class Answer {
 	private SiteUser author;  // 글쓴이
 		
 	private LocalDateTime mdate;
+	
+	// 하나의 질문에 여러사람이 추천가능 , 한사람이 여러글 추천가능 -> N:N
+	// Set으로 설정한 이유 -> voter 속성값이 서로 중복 되지 않도록 하기위해
+	@ManyToMany 
+	Set<SiteUser> voter;
+
 
 }

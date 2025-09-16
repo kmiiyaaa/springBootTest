@@ -117,4 +117,17 @@ public class BoardController {
 		return "redirect:/board/list";
 	}
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/vote/{bnum}")
+	public String boardVote(Principal principal, @PathVariable("bnum") Integer bnum) {
+		
+		Board board = boardService.getBoard(bnum);
+		SiteUser siteUser = userService.getUser(principal.getName());
+		boardService.vote(board, siteUser);
+		return String.format("redirect:/board/detail/%s", bnum);
+		
+		
+	}
+	
+	
 }

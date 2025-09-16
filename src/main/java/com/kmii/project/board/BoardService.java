@@ -71,5 +71,13 @@ private final BoardRepository boardRepository;
 		boardRepository.delete(board);
 	}
 	
+	// 추천
+	public void vote(Board board, SiteUser siteUser) {
+		board.getVoter().add(siteUser);
+		boardRepository.save(board);  // 질문 엔티티에 추천인 저장
+		
+	}
+	
+	
 	
 }

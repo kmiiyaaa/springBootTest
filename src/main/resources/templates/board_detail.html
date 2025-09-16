@@ -15,6 +15,9 @@
                                         .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
                                         'yyyy-MM-dd HH:mm')}">게시글 등록일</div>
 	<div>
+		<a href=javascript:void(0) class="recommend" th:data-uri="@{|/board/vote/${board.bnum}|}">추천
+		<span class="badge" th:text="${#lists.size(board.voter)}"></span>
+		</a>
 		<a th:href="@{|/board/modify/${board.bnum}|}" sec:authorize="isAuthenticated()" 
 		th:if="${board.author != null and #authentication.getPrincipal.getUsername() ==
 		board.author.username}" th:text="수정"></a>
@@ -49,6 +52,9 @@
                                         'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
 	        </div>
 	        <div>
+	        	<a href=javascript:void(0) class="recommend" th:data-uri="@{|/answer/vote/${answer.id}|}">추천
+				<span class="badge" th:text="${#lists.size(answer.voter)}"></span>
+				</a>
 				<a th:href="@{|/answer/modify/${answer.id}|}" sec:authorize="isAuthenticated()" 
 				th:if="${answer.author != null and #authentication.getPrincipal.getUsername() ==
 				answer.author.username}" th:text="수정"></a>
@@ -76,9 +82,19 @@
 	
 	<script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
+	
 	Array.from(delete_elements).forEach(function (element) {
 		element.addEventListener('click', function () {
 			if (confirm("정말로 삭제하시겠습니까?")) {
+				location.href = this.dataset.uri;
+			};
+		});
+	});
+	
+	const recommend_elements = document.getElementsByClassName("recommend");
+	Array.from(recommend_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			if (confirm("정말로 추천하시겠습니까?")) {
 				location.href = this.dataset.uri;
 			};
 		});

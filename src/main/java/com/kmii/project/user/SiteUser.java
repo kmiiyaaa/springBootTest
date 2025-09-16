@@ -1,5 +1,6 @@
 package com.kmii.project.user;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -30,6 +31,7 @@ import lombok.Setter;
 		
 		@Column(name="email" , unique = true)// 중복불가
 		private String email; // 유저 이메일
-
+		
+	
 
 }

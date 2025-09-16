@@ -101,5 +101,16 @@ public class AnswerController {
 		
 	}
 	
+	@PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/vote/{bnum}")
+	public String answerVote(Principal principal, @PathVariable("bnum") Integer bnum) {
+		
+		Answer answer = answerService.getAnswer(bnum);
+		SiteUser siteUser = userService.getUser(principal.getName());
+		answerService.vote(answer, siteUser);
+		return String.format("redirect:/board/detail/%s", answer.getBoard().getBnum());
+		
+	}
+	
 	
 }
