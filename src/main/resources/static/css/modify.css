@@ -1,0 +1,68 @@
+/* 전체 폼 컨테이너 */
+.board-form-container {
+    max-width: 800px;
+    margin: 30px auto;
+    padding: 25px;
+    background: #fffaf6;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+    font-family: "Gaegu", sans-serif;
+}
+
+/* 제목 */
+.board-form-container h4 {
+    font-size: 24px;
+    color: rgb(61, 112, 154);
+    margin-bottom: 20px;
+}
+
+/* 폼 내부 각 항목 */
+.board-form-container form div {
+    margin-bottom: 18px;
+}
+
+/* 라벨 */
+.board-form-container label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 6px;
+    color: #555;
+}
+
+/* 텍스트 입력 */
+.board-form-container input[type="text"],
+.board-form-container textarea {
+    width: 100%;
+    padding: 10px 12px;
+    border: 1px solid #ddd;
+    border-radius: 8px;
+    font-family: "Gaegu", sans-serif;
+    font-size: 15px;
+    resize: vertical;
+}
+
+/* 제출 버튼 */
+.board-form-container input[type="submit"] {
+    padding: 10px 20px;
+    background: #ffb6b9;
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+.board-form-container input[type="submit"]:hover {
+    background: #ff8a8a;
+}
+
+/* 반응형 */
+@media (max-width: 768px) {
+    .board-form-container {
+        padding: 15px;
+    }
+    .board-form-container h4 {
+        font-size: 20px;
+    }
+}

@@ -71,16 +71,6 @@ public class UserController {
 	}
 	
 	
-//	@GetMapping("/mypage")
-//	public String mypage(Model model) {
-//	    Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-//	    String username = authentication.getName(); // 로그인한 아이디
-//	    
-//	    SiteUser user = userService.findByUsername(username); // DB 조회
-//	    model.addAttribute("user", user);
-//	    
-//	    return "mypage";
-//	}
 
 	
 	}

@@ -1,19 +1,21 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
-	<h4>질문 등록</h4>
-	<form th:object="${boardForm}" method="post">
-		<input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
-		<div th:replace="~{form_errors :: formErrorsFragment}"></div>
-		<hr>
-		<div>
-			<label for="btitle">제목</label>
-			<input type="text" th:field="*{btitle}"> <!-- th:field는 name/id="" 쓰지 않아도 된다 -->
-		</div>
-		<div>
-			<label for="bcontent">내용</label>
-			<textarea rows="10" th:field="*{bcontent}"></textarea>
-		</div>
-		<input type="submit" value="저장" >
-	</form>
 
+	<div class="board-form-container">
+	    <h4>문의 등록</h4>
+	    <form th:object="${boardForm}" method="post">
+	        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+	        <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+	        <hr>
+	        <div>
+	            <label for="btitle">제목</label>
+	            <input type="text" th:field="*{btitle}">
+	        </div>
+	        <div>
+	            <label for="bcontent">내용</label>
+	            <textarea rows="10" th:field="*{bcontent}"></textarea>
+	        </div>
+	        <input type="submit" value="저장">
+	    </form>
+	</div>
 </div>

@@ -1,0 +1,93 @@
+/* 기본 스타일 */
+body {
+    margin: 0;
+    font-family: 'Arial', sans-serif;
+    background-color: #fffaf6;
+    color: #333;
+}
+
+/* 메인 배너 */
+.main-banner {
+    text-align: center;
+    padding: 60px 20px;
+    background: url('https://source.unsplash.com/1200x400/?cake, bakery') no-repeat center/cover;
+    color:  rgb(255, 201, 147); 
+	font-family: 'Malgun Gothic';
+}
+
+.main-banner h1 {
+    font-size: 48px;
+    margin-bottom: 20px;
+    text-shadow: 2px 2px 5px rgb(255, 119, 119);
+}
+
+.main-banner p {
+	font-family: "Gaegu", sans-serif;
+    font-size: 23px;
+    margin-bottom: 30px;
+    text-shadow: 1px 1px 3px rgb(255, 255, 255);
+}
+
+.btn-reserve {
+    padding: 15px 30px;
+    background-color: rgb(255, 201, 147); 
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 10px;
+    transition: background 0.3s;
+}
+
+.btn-reserve:hover {
+    background-color: #ff8a8a;
+}
+
+/* 카드 섹션 */
+.card-section {
+    padding: 50px 20px;
+    text-align: center;
+}
+
+.card-section h2 {
+	font-family: "Gaegu", sans-serif;
+    font-size: 23px;
+    margin-bottom: 40px;
+    color: #ff6f61;
+}
+
+.card-container {
+    display: flex;
+    justify-content: center;
+    gap: 30px;
+    flex-wrap: wrap;
+}
+
+.card {
+    background-color: white;
+    border-radius: 15px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+    width: 300px;
+    padding: 20px;
+    transition: transform 0.3s;
+}
+
+.card img {
+    width: 100%;
+    border-radius: 15px;
+    margin-bottom: 15px;
+}
+
+.card h3 {
+    margin: 10px 0;
+    color: #ff6f61;
+	font-family: "Gaegu", sans-serif;
+}
+
+.card p {
+    font-size: 14px;
+    color: rgb(144, 144, 144);
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}

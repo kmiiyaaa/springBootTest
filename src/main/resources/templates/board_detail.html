@@ -3,104 +3,110 @@
       layout:decorate="~{layout}">
 <div layout:fragment="content">
 	
-	<h1 th:text="${board.btitle}"></h1>
-	<div><span th:if="${board.author} != null" th:text="${board.author.username}"></span></div>
-	<div th:text="${board.bcontent}"></div>
-	<span th:if="${board.mdate != null}"
-	      th:text="${#temporals.format(
-	          board.mdate.atZone(T(java.time.ZoneId).of('UTC'))
-	                      .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-	          'yyyy-MM-dd HH:mm')}">
-	</span>
-	<span th:if="${board.mdate == null}"></span>
-	<div th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
-                                        .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-                                        'yyyy-MM-dd HH:mm')}">게시글 등록일</div>
-	<div>
-		<a href=javascript:void(0) class="recommend" th:data-uri="@{|/board/vote/${board.bnum}|}">추천
-		<span class="badge" th:text="${#lists.size(board.voter)}"></span>
-		</a>
-		<a th:href="@{|/board/modify/${board.bnum}|}" sec:authorize="isAuthenticated()" 
-		th:if="${board.author != null and #authentication.getPrincipal.getUsername() ==
-		board.author.username}" th:text="수정"></a>
-		<a th:href="@{|/board/delete/${board.bnum}|}" class="delete" sec:authorize="isAuthenticated()" 
-		th:if="${board.author != null and #authentication.getPrincipal.getUsername() ==
-		board.author.username}" th:text="삭제"></a>
-	</div>
-	<hr>
-	
-	<!--댓글 갯수 -->
-		<h5 th:text="|${#lists.size(board.answerList)}개의 댓글이 있습니다.|">답변 갯수</h5>
-		
-	<!-- 댓글들(반복) -->
-	<div th:each="answer : ${board.answerList}">
-    <a th:id="|answer_${answer.id}|"></a>
-    <div>
-        <div th:text="${answer.acontent}">댓글 내용</div>
-        <div>
-            <div>
-                <span th:if="${board.author != null}" th:text="${board.author.username}"></span>
-            </div>
-             <span th:if="${answer.mdate != null}"
-			      th:text="${#temporals.format(
-			          answer.mdate.atZone(T(java.time.ZoneId).of('UTC'))
-			                      .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-			          'yyyy-MM-dd HH:mm')}">
-			</span>
-			<span th:if="${answer.mdate == null}"></span>
-	        </div>			
-            <div th:text="${#temporals.format(answer.adate.atZone(T(java.time.ZoneId).of('UTC'))
-                                        .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-                                        'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
-	        </div>
-	        <div>
-	        	<a href=javascript:void(0) class="recommend" th:data-uri="@{|/answer/vote/${answer.id}|}">추천
-				<span class="badge" th:text="${#lists.size(answer.voter)}"></span>
-				</a>
-				<a th:href="@{|/answer/modify/${answer.id}|}" sec:authorize="isAuthenticated()" 
-				th:if="${answer.author != null and #authentication.getPrincipal.getUsername() ==
-				answer.author.username}" th:text="수정"></a>
-				<a th:href="@{|/answer/delete/${answer.id}|}" class="delete" sec:authorize="isAuthenticated()" 
-				th:if="${answer.author != null and #authentication.getPrincipal.getUsername() ==
-				answer.author.username}" th:text="삭제"></a>
-			</div>
-			
-	    </div>
-	</div>
-</form>	
-		 <!-- 댓글 작성 폼 -->
-    <sec:authorize access="isAuthenticated()">
-        <form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post">
-            <div th:replace="~{form_errors :: formErrorsFragment}"></div>
-            <textarea th:field="*{acontent}" rows="5" placeholder="댓글 내용을 입력하세요."></textarea>
-            <input type="submit" value="댓글 등록">
-        </form>
-    </sec:authorize>
+	 <!-- 게시글 상세 컨테이너 -->
+	    <div class="board-detail-container">
 
-    <!-- 로그인 안 했을 때 안내 -->
-    <sec:authorize access="isAnonymous()">
-        <p>댓글을 작성하려면 로그인 후 이용해주세요.</p>
-    </sec:authorize>
+	        <!-- 제목 -->
+	        <h1 th:text="${board.btitle}"></h1>
+
+	        <!-- 작성자 & 날짜 -->
+	        <div class="board-detail-meta">
+	            <span th:if="${board.author != null}" th:text="${board.author.username}">작성자</span>
+	            <span th:if="${board.mdate != null}"
+	                  th:text="${#temporals.format(
+	                      board.mdate.atZone(T(java.time.ZoneId).of('UTC'))
+	                                  .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+	                      'yyyy-MM-dd HH:mm')}">수정일</span>
+	            <span th:if="${board.mdate == null}"
+	                  th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
+	                                              .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+	                                              'yyyy-MM-dd HH:mm')}">등록일</span>
+	        </div>
+
+	        <!-- 내용 -->
+	        <div class="board-detail-content" th:text="${board.bcontent}">게시글 내용</div>
+
+	        <!-- 추천/수정/삭제 -->
+	        <div class="board-detail-actions">
+	            <a href="javascript:void(0)" class="recommend" th:data-uri="@{|/board/vote/${board.bnum}|}">추천
+	                <span class="badge" th:text="${#lists.size(board.voter)}"></span>
+	            </a>
+	            <a th:href="@{|/board/modify/${board.bnum}|}" class="modify"
+	               sec:authorize="isAuthenticated()"
+	               th:if="${board.author != null and #authentication.getPrincipal.getUsername() == board.author.username}">수정</a>
+	            <a th:href="@{|/board/delete/${board.bnum}|}" class="delete"
+	               sec:authorize="isAuthenticated()"
+	               th:if="${board.author != null and #authentication.getPrincipal.getUsername() == board.author.username}">삭제</a>
+	        </div>
+
+	        <hr>
+
+	        <!-- 댓글 영역 -->
+	        <div class="board-comments">
+	            <h5 th:text="|${#lists.size(board.answerList)}개의 댓글이 있습니다.|">댓글 수</h5>
+
+	            <!-- 댓글 리스트 -->
+	            <div th:each="answer : ${board.answerList}" class="comment">
+	                <div class="comment-meta">
+	                    <span th:if="${answer.author != null}" th:text="${answer.author.username}">댓글 작성자</span>
+	                    <span th:if="${answer.mdate != null}"
+	                          th:text="${#temporals.format(
+	                              answer.mdate.atZone(T(java.time.ZoneId).of('UTC'))
+	                                          .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+	                              'yyyy-MM-dd HH:mm')}">댓글 수정일</span>
+	                    <span th:if="${answer.mdate == null}"
+	                          th:text="${#temporals.format(answer.adate.atZone(T(java.time.ZoneId).of('UTC'))
+	                                                      .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+	                                                      'yyyy-MM-dd HH:mm')}">댓글 등록일</span>
+	                </div>
+	                <div class="comment-content" th:text="${answer.acontent}">댓글 내용</div>
+	                <div class="comment-actions">
+	                    <a href="javascript:void(0)" class="recommend" th:data-uri="@{|/answer/vote/${answer.id}|}">추천
+	                        <span class="badge" th:text="${#lists.size(answer.voter)}"></span>
+	                    </a>
+	                    <a th:href="@{|/answer/modify/${answer.id}|}" class="modify"
+	                       sec:authorize="isAuthenticated()"
+	                       th:if="${answer.author != null and #authentication.getPrincipal.getUsername() == answer.author.username}">수정</a>
+	                    <a th:href="@{|/answer/delete/${answer.id}|}" class="delete"
+	                       sec:authorize="isAuthenticated()"
+	                       th:if="${answer.author != null and #authentication.getPrincipal.getUsername() == answer.author.username}">삭제</a>
+	                </div>
+	            </div>
+
+	            <!-- 댓글 작성 폼 -->
+	            <sec:authorize access="isAuthenticated()">
+	                <form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post" class="comment-form">
+	                    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+	                    <textarea th:field="*{acontent}" rows="5" placeholder="댓글 내용을 입력하세요."></textarea>
+	                    <input type="submit" value="댓글 등록">
+	                </form>
+	            </sec:authorize>
+
+
+	        </div>
+
+	    </div>
+
 	</div>
-	
+
+	<!-- 스크립트 -->
 	<script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
-	
 	Array.from(delete_elements).forEach(function (element) {
-		element.addEventListener('click', function () {
-			if (confirm("정말로 삭제하시겠습니까?")) {
-				location.href = this.dataset.uri;
-			};
-		});
+	    element.addEventListener('click', function () {
+	        if (confirm("정말로 삭제하시겠습니까?")) {
+	            location.href = this.href;
+	        };
+	    });
 	});
-	
+
 	const recommend_elements = document.getElementsByClassName("recommend");
 	Array.from(recommend_elements).forEach(function (element) {
-		element.addEventListener('click', function () {
-			if (confirm("정말로 추천하시겠습니까?")) {
-				location.href = this.dataset.uri;
-			};
-		});
+	    element.addEventListener('click', function () {
+	        if (confirm("정말로 추천하시겠습니까?")) {
+	            location.href = this.dataset.uri;
+	        };
+	    });
 	});
 	</script>
-</html>
+	</html>

@@ -1,17 +1,38 @@
 <html layout:decorate="~{layout}">
 <div layout:fragment="content">
 
-	<div class="container mx-auto mt-10 flex flex-col items-center space-y-6">
-	    
+	<!-- 배너 -->
+	    <header class="main-banner">
+	        <h1>Cake Pickup Reservation</h1>
+	        <p>당일 픽업 가능! 지금 예약하세요! </p>
+	        <a href="/reservation/create" class="btn-reserve">예약하기</a>
+			<a href="/reservation/list" class="btn-reserve">예약확인</a>
+	    </header>
 
-	    <div class="flex space-x-6 mt-6">
-	        <a th:href="@{/reservation/create}" class="bg-[#e6c5d0] hover:bg-[#ca9eab] text-white px-8 py-4 rounded-lg shadow-md transition duration-300">
-	            예약하기
-	        </a>
-	        <a th:href="@{/board/list}" class="bg-[#e6c5d0] hover:bg-[#ca9eab] text-white px-8 py-4 rounded-lg shadow-md transition duration-300">
-	            문의게시판
-	        </a>
-	    </div>
-	</div>
+	    <!-- 카드 섹션 -->
+	    <section class="card-section">
+	        <h2>이달의 BEST</h2>
+	        <div class="card-container">
+	            <div class="card">
+	                <!--<img src="https://source.unsplash.com/300x200/?cake,strawberry">-->
+					<img src="/images/cake1.jpg">
+	                <h3>메론&망고 케이크</h3>
+	                <p>당도 높은 과일로 달달 부드러운 케이크</p>
+	            </div>
+	            <div class="card">
+	                <!--<img src="https://source.unsplash.com/300x200/?cake,chocolate">-->
+					<img src="/images/cake2.jpg">
+	                <h3>딸기초코 케이크</h3>
+	                <p>진한 초콜릿과 상큼달달 딸기의 매력</p>
+	            </div>
+	            <div class="card">
+	                <!--<img src="https://source.unsplash.com/300x200/?cake,cheese">-->
+					<img src="/images/cake3.jpg">
+	                <h3>무화과 케이크</h3>
+	                <p>아끼지 않은 무화과와 우유시트의 환상적 조합</p>
+	            </div>
+	        </div>
+	    </section>
+	
 </div>
 </html>
