@@ -4,9 +4,16 @@
 	<h1 th:text="${board.btitle}"></h1>
 	<div><span th:if="${board.author} != null" th:text="${board.author.username}"></span></div>
 	<div th:text="${board.bcontent}"></div>
+	<span th:if="${board.mdate != null}"
+	      th:text="${#temporals.format(
+	          board.mdate.atZone(T(java.time.ZoneId).of('UTC'))
+	                      .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+	          'yyyy-MM-dd HH:mm')}">
+	</span>
+	<span th:if="${board.mdate == null}"></span>
 	<div th:text="${#temporals.format(board.bdate.atZone(T(java.time.ZoneId).of('UTC'))
                                         .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
-                                        'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
+                                        'yyyy-MM-dd HH:mm')}">게시글 등록일</div>
 	<div>
 		<a th:href="@{|/board/modify/${board.bnum}|}" sec:authorize="isAuthenticated()" 
 		th:if="${board.author != null and #authentication.getPrincipal.getUsername() ==
@@ -18,17 +25,25 @@
 	<hr>
 	
 	<!--댓글 갯수 -->
-		<h5 th:text="|${#lists.size(board.answerList)}개의 답변이 있습니다.|">답변 갯수</h5>
+		<h5 th:text="|${#lists.size(board.answerList)}개의 댓글이 있습니다.|">답변 갯수</h5>
 		
 	<!-- 댓글들(반복) -->
 	<div th:each="answer : ${board.answerList}">
     <a th:id="|answer_${answer.id}|"></a>
     <div>
-        <div th:text="${answer.acontent}">답변글 내용</div>
+        <div th:text="${answer.acontent}">댓글 내용</div>
         <div>
             <div>
                 <span th:if="${board.author != null}" th:text="${board.author.username}"></span>
-            </div>			
+            </div>
+             <span th:if="${answer.mdate != null}"
+			      th:text="${#temporals.format(
+			          answer.mdate.atZone(T(java.time.ZoneId).of('UTC'))
+			                      .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
+			          'yyyy-MM-dd HH:mm')}">
+			</span>
+			<span th:if="${answer.mdate == null}"></span>
+	        </div>			
             <div th:text="${#temporals.format(answer.adate.atZone(T(java.time.ZoneId).of('UTC'))
                                         .withZoneSameInstant(T(java.time.ZoneId).of('Asia/Seoul')),
                                         'yyyy-MM-dd HH:mm')}">댓글 등록일</div>
@@ -47,13 +62,18 @@
 
 	<!-- 답변 작성 -->
 		<form th:action="@{|/answer/create/${board.bnum}|}" th:object="${answerForm}" method="post"> 
-			<div th:replace="~{form_errors :: formErrorsFragment}"></div>
-			<textarea sec:authorize="isAnonymous()" disabled 
-			th:field="*{acontent}" rows="10"></textarea>
-			<textarea sec:authorize="isAuthenticated()" th:field="*{acontent}" rows="10"></textarea>
-			<input type="submit" value="댓글 등록">
-		</form>	
+    <div th:replace="~{form_errors :: formErrorsFragment}"></div>
+    
+    <!-- 로그인 안 했으면 비활성화 + 안내 메시지 -->
+    <textarea th:field="*{acontent}" rows="10"
+              th:disabled="${#authorization.expression('isAnonymous()')}"></textarea>
+    
+    
+    <input type="submit" value="댓글 등록" sec:authorize="isAuthenticated()">
+</form>
+		
 	</div>
+	
 	<script layout:fragment="script" type='text/javascript'>
 	const delete_elements = document.getElementsByClassName("delete");
 	Array.from(delete_elements).forEach(function (element) {
