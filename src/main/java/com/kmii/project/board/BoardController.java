@@ -38,10 +38,12 @@ public class BoardController {
 	private UserService userService;
 	
 	@GetMapping(value="/list")
-	public String list(Model model, @RequestParam(value="page", defaultValue="0") int page) {  //첫페이지 = 0
+	public String list(Model model, @RequestParam(value="page", defaultValue="0") 
+	int page, @RequestParam(value="kw", defaultValue="")String kw) {  //첫페이지 = 0
 		
-		Page<Board> paging = boardService.getList(page);
+		Page<Board> paging = boardService.getList(page, kw);
 		model.addAttribute("paging", paging);
+		model.addAttribute("kw", kw);
 		
 		return "board_list";
 	}

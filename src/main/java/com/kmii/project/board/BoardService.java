@@ -9,26 +9,52 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
 import com.kmii.project.DataNotFoundException;
+import com.kmii.project.answer.Answer;
 import com.kmii.project.user.SiteUser;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
+import jakarta.persistence.criteria.CriteriaQuery;
+import jakarta.persistence.criteria.Join;
+import jakarta.persistence.criteria.JoinType;
+import jakarta.persistence.criteria.Predicate;
+import jakarta.persistence.criteria.Root;
 import lombok.RequiredArgsConstructor;
 
 @RequiredArgsConstructor
 @Service
 public class BoardService {
 	
-private final BoardRepository boardRepository;
+	private final BoardRepository boardRepository;
+
+	private final Specification<Board> search(String kw){
+		return new Specification<>() {
+			private static final long serialVersionUID = 1L;
+			@Override
+			public Predicate toPredicate(Root<Board> b, CriteriaQuery<?> query, CriteriaBuilder cb) {
+				query.distinct(true); // 중복 제거
+				Join<Board, SiteUser> u1 = b.join("author", JoinType.LEFT);
+				Join<Board, Answer> a = b.join("answerList", JoinType.LEFT);
+				return cb.or(cb.like(b.get("btitle"), "%"+kw+"%"),  // 제목
+						cb.like(b.get("bcontent"), "%"+kw+"%"), // 내용
+						cb.like(u1.get("username"), "%"+kw+"%"), // 게시글 작성자
+						cb.like(a.get("acontent"), "%"+kw+"%")); // 댓글 내용		
+				
+			}
+		}; 
+	}
 	
 	// 모든 게시글 가져오기
-	public Page<Board> getList(int page){  
+	public Page<Board> getList(int page, String kw){  
 		
 		List<Sort.Order> sorts = new ArrayList<>();
 		sorts.add(Sort.Order.desc("bdate"));		
 		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
-		return boardRepository.findAll(pageable);
+		Specification<Board> spec = search(kw);
+		return boardRepository.findAll(spec, pageable);
 		
 	}
 	
@@ -84,6 +110,12 @@ private final BoardRepository boardRepository;
 		boardRepository.save(board);
 	}
 	
+	
+	// 게시글 검색
+	public void search() {
+		
+		
+	}
 	
 	
 }

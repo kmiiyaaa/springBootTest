@@ -3,10 +3,15 @@
     <div class="container">
         <h1>문의 게시판</h1>
 
-        <!-- 글쓰기 버튼 -->
-        <div class="board-actions">
-            <a th:href="@{/board/create}" class="btn">글쓰기</a>
-        </div>
+       <div>
+       		<div>
+       			<a th:href="@{/board/create}">글쓰기</a>
+       		</div>
+       		<div>
+       			<input type="text" id="search_kw" th:value="${kw}">
+       			<button type="button" id="btn_search">찾기</button>
+       		</div>
+       </div>
 
         <!-- 게시판 테이블 -->
         <table class="board-table">
@@ -40,28 +45,51 @@
         <!-- 페이징 처리 -->
         <ul>
 		    <!-- 이전 버튼 -->
-		    <li th:classappend="${!paging.hasPrevious} ? 'disabled'">
-		        <a th:href="@{|?page=${paging.number-1}|}">
-		            <span>이전</span>
-		        </a>
-		    </li>
+		    <li th:if="${paging.hasPrevious}">
+			   <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number - 1}">
+			        <span>이전</span>
+			    </a>
+			</li>
 		
 		    <!-- 페이지 번호 출력 -->
-		    <li th:each="page : ${#numbers.sequence(0, paging.totalPages-1)}"
-		    	th:if="${page >= paging.number-5 and page <= paging.number+5}"
-		        th:classappend="${page == paging.number} ? 'active'">
-		        <a th:href="@{|?page=${page}|}" th:text="${page+1}"></a>
-		    </li>
+		   <li th:each="page : ${#numbers.sequence(0, paging.totalPages - 1)}"
+			    th:if="${page >= paging.number - 5 and page <= paging.number + 5}"
+			    th:classappend="${page == paging.number} ? 'active'">
+			    <a class="page-link" href="javascript:void(0)" th:data-page="${page}" th:text="${page + 1}"></a>
+		  </li>
+
 		
 		    <!-- 다음 버튼 -->
-		    <li th:classappend="${!paging.hasNext} ? 'disabled'">
-		        <a th:href="@{|?page=${paging.number+1}|}">
-		            <span>다음</span>
-		        </a>
-		    </li>
+		    <li th:if="${paging.hasNext}">
+			    <a class="page-link" href="javascript:void(0)" th:data-page="${paging.number + 1}">
+			        <span>다음</span>
+			    </a>
+			</li>
 		</ul>
-        </div>
         
+     <form th:action="@{/board/list}" method="get" id="searchForm">
+     	<input type="hidden" id="kw" name="kw" th:value="${kw}">
+     	<input type="hidden" id="page" name="page" th:value="${paging.number}">
+     </form>   
     </div>
-</div>
+    
+    <script layout:fragment="script" type='text/javascript'>
+	const page_elements = document.getElementsByClassName("page-link");
+	
+	Array.from(page_elements).forEach(function (element) {
+		element.addEventListener('click', function () {
+			document.getElementById('page').value = this.dataset.page;
+			document.getElementById('searchForm').submit();
+			
+		});
+	});
+	
+	const btn_search = document.getElementById("btn_search");
+	btn_search.addEventListener('click',function() {
+		 document.getElementById('kw').value = document.getElementById('search_kw').value;
+		    document.getElementById('page').value = 0; // 검색 버튼 클릭 시 0페이지부터 조회
+		    document.getElementById('searchForm').submit();
+	});
+	
+	</script>
 </html>
