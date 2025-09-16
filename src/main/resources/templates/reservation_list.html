@@ -1,0 +1,40 @@
+<!-- src/main/resources/templates/reservation_list.html -->
+<html layout:decorate="~{layout}">
+    <div layout:fragment="content">
+		<h3>픽업 예약 리스트</h3> 
+
+		<table class="rlist-table">
+		           <thead>
+		               <tr>
+		                   <th>번호</th>
+		                   <th>예약자</th>
+		                   <th>예약일시</th>
+		                   <th>수정/삭제</th>
+		               </tr>
+		           </thead>
+		           <tbody>
+		               <tr th:each="reservation, loop : ${reservations}">
+		                   <td th:text="${loop.index + 1}"></td>
+		                   <td th:text="${reservation.user != null ? reservation.user.username : ''}"></td>
+		                   <td th:text="${#temporals.format(reservation.rtime, 'yyyy-MM-dd HH:mm')}"></td>
+		                   <td>
+		                       <div class="action-btns">
+		                           <a th:href="@{|/reservation/modify/${reservation.id}|}"
+		                              sec:authorize="isAuthenticated()"
+		                              th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
+		                              class="modify-btn">
+		                              수정
+		                           </a>
+		                           <a th:href="@{|/reservation/delete/${reservation.id}|}"
+		                              sec:authorize="isAuthenticated()"
+		                              th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
+		                              class="delete-btn">
+		                              삭제
+		                           </a>
+		                       </div>
+		                   </td>
+		               </tr>
+		           </tbody>
+		       </table>
+    </div>
+</html>

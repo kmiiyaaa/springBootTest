@@ -1,0 +1,64 @@
+/* 테이블 전체 */
+.rlist-table {
+    width: 90%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    font-family: 'Nanum Gothic', sans-serif;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    background: #fffaf6;
+    border-radius: 10px;
+    overflow: hidden;
+}
+
+/* 테이블 헤더 */
+.rlist-table thead {
+    background: #ffe6d6;
+}
+
+.rlist-table th, .rlist-table td {
+    padding: 12px 15px;
+    text-align: center;
+    border-bottom: 1px solid #ffd9c8;
+}
+
+/* 마지막 행 테두리 제거 */
+.rlist-table tbody tr:last-child td {
+    border-bottom: none;
+}
+
+/* 버튼 컨테이너 */
+.action-btns {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+}
+
+/* 수정 버튼 */
+.modify-btn {
+    padding: 5px 12px;
+    background-color: #ffb6b9;
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.modify-btn:hover {
+    background-color: #ff8a8a;
+}
+
+/* 삭제 버튼 */
+.delete-btn {
+    padding: 5px 12px;
+    background-color: #ffa500; /* 오렌지 느낌 */
+    color: white;
+    border-radius: 8px;
+    text-decoration: none;
+    font-size: 14px;
+    transition: background 0.3s;
+}
+
+.delete-btn:hover {
+    background-color: #ff7f00;
+}

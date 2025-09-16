@@ -69,11 +69,14 @@ public class ReservationController {
     // 예약 리스트 조회
     @GetMapping("/list")
     public String reservationList(Model model) {
-        List<Reservation> reservations = reservationService.getList(); // Service 통해 호출
+        List<Reservation> reservations = reservationService.getList();
+
+        // 최신 예약이 위로 오게 정렬
+        reservations.sort((r1, r2) -> r2.getRtime().compareTo(r1.getRtime()));
+
         model.addAttribute("reservations", reservations);
         return "reservation_list";
     }
-    
 
 
 
