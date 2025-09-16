@@ -49,6 +49,8 @@ public class BoardController {
 	@GetMapping(value="/detail/{bnum}")
 	public String detail(Model model, @PathVariable("bnum") Integer bnum, AnswerForm answerForm) {
 		
+		boardService.hit(boardService.getBoard(bnum)); // 조회수 증가
+		
 		Board board = boardService.getBoard(bnum);
 		model.addAttribute("board", board); 
 		

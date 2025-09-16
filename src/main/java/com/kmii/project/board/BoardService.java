@@ -78,6 +78,12 @@ private final BoardRepository boardRepository;
 		
 	}
 	
+	// 조회수 증가
+	public void hit(Board board) {
+		board.setBhit(board.getBhit()+1);
+		boardRepository.save(board);
+	}
+	
 	
 	
 }
