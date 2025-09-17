@@ -1,10 +1,15 @@
 package com.kmii.project.reservation;
 
+
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 import org.springframework.ui.Model;
@@ -28,9 +33,12 @@ public class ReservationService {
 	
 	
 	// 모든 예약 리스트
-	public List<Reservation> getList() {
+	public Page<Reservation> getList(int page) {
 		
-		return reservationRepository.findAll(Sort.by(Sort.Direction.DESC, "rtime"));	
+		List<Sort.Order> sorts = new ArrayList<>();
+		sorts.add(Sort.Order.desc("rtime"));
+		Pageable pageable = PageRequest.of(page, 10, Sort.by(sorts));
+		return reservationRepository.findAll(pageable);
 	}
 	
 	

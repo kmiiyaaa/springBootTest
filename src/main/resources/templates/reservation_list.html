@@ -1,41 +1,92 @@
 <!-- src/main/resources/templates/reservation_list.html -->
 <html layout:decorate="~{layout}">
-    <div layout:fragment="content">
+<div layout:fragment="content">
 		
-		<h3 class="rlist-title">예약 리스트</h3> 
+	<h3 class="rlist-title">예약 리스트</h3> 
 
-		<table class="rlist-table">
-		           <thead>
-		               <tr>
-		                   <th>번호</th>
-		                   <th>예약자</th>
-		                   <th>예약일시</th>
-		                   <th>수정/삭제</th>
-		               </tr>
-		           </thead>
-		           <tbody>
-		               <tr th:each="reservation, loop : ${reservations}">
-		                   <td th:text="${loop.index + 1}"></td>
-		                   <td th:text="${reservation.user != null ? reservation.user.username : ''}"></td>
-		                   <td th:text="${#temporals.format(reservation.rtime, 'yyyy-MM-dd HH:mm')}"></td>
-		                   <td>
-		                       <div class="action-btns">
-		                           <a th:href="@{|/reservation/modify/${reservation.id}|}"
-		                              sec:authorize="isAuthenticated()"
-		                              th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
-		                              class="modify-btn">
-		                              수정
-		                           </a>
-		                           <a th:href="@{|/reservation/delete/${reservation.id}|}"
-		                              sec:authorize="isAuthenticated()"
-		                              th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
-		                              class="delete-btn">
-		                              삭제
-		                           </a>
-		                       </div>
-		                   </td>
-		               </tr>
-		           </tbody>
-		       </table>
+	<table class="rlist-table">
+		<thead>
+			<tr>
+				<th>번호</th>
+				<th>예약자</th>
+				<th>예약일시</th>
+				<th>수정/삭제</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:each="reservation, loop : ${reservations}">
+			    <td th:text="${reservations.getTotalElements - (reservations.number*reservations.size) - loop.index}"></td>
+			    <td th:text="${reservation.user != null ? reservation.user.username : ''}"></td>
+			    <td th:text="${#temporals.format(reservation.rtime, 'yyyy-MM-dd HH:mm')}"></td>
+			    <td>
+			       <div class="action-btns">
+			       <a th:href="@{|/reservation/modify/${reservation.id}|}"
+			       	sec:authorize="isAuthenticated()"
+			       	th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
+			       	class="modify-btn">
+			    	 수정
+				     </a>
+				     <a th:href="@{|/reservation/delete/${reservation.id}|}"
+				        sec:authorize="isAuthenticated()"
+				       th:if="${reservation.user != null and #authentication.getName() == reservation.user.username}"
+				       class="delete-btn">
+				    	 삭제
+				    </a>
+			    </div>
+			    </td>
+			 </tr>
+		</tbody>
+	</table>
+	
+  <!-- 페이징용 폼 -->
+<form id="pageForm" method="get" th:action="@{/reservation/list}">
+    <input type="hidden" id="page" name="page" value="0">
+</form>
+
+<!-- 페이징 -->
+<div class="board-pagination">
+    <ul>
+        <!-- << (이전 그룹) -->
+        <li th:if="${hasPrevGroup}">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${startPage - 1}">«</a>
+        </li>
+
+        <!-- 이전 -->
+        <li th:if="${reservations.hasPrevious}">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${reservations.number - 1}">이전</a>
+        </li>
+
+        <!-- 그룹 페이지 번호 -->
+        <li th:each="page : ${#numbers.sequence(startPage, endPage)}"
+            th:classappend="${page == reservations.number} ? 'active'">
+            <a class="page-link"
+               href="javascript:void(0)"
+               th:data-page="${page}"
+               th:text="${page + 1}"></a>
+        </li>
+
+        <!-- 다음 -->
+        <li th:if="${reservations.hasNext}">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${reservations.number + 1}">다음</a>
+        </li>
+
+        <!-- >> (다음 그룹) -->
+        <li th:if="${hasNextGroup}">
+            <a class="page-link" href="javascript:void(0)" th:data-page="${endPage + 1}">»</a>
+        </li>
+    </ul>
+</div>
+	     
     </div>
+
+	<!-- 스크립트 -->
+	<script layout:fragment="script" type="text/javascript">
+	    const pageLinks = document.querySelectorAll(".page-link");
+	    pageLinks.forEach(link => {
+	        link.addEventListener("click", function () {
+	            document.getElementById("page").value = this.dataset.page;
+	            document.getElementById("pageForm").submit(); // 🚀 이동
+	        });
+	    });
+	</script>  
 </html>

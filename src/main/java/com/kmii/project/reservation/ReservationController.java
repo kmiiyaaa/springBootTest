@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -12,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kmii.project.user.SiteUser;
 import com.kmii.project.user.UserService;
@@ -68,13 +70,31 @@ public class ReservationController {
     
     // 예약 리스트 조회
     @GetMapping("/list")
-    public String reservationList(Model model) {
-        List<Reservation> reservations = reservationService.getList();
-
-        // 최신 예약이 위로 오게 정렬
-        reservations.sort((r1, r2) -> r2.getRtime().compareTo(r1.getRtime()));
-
-        model.addAttribute("reservations", reservations);
+    public String reservationList(Model model, @RequestParam(value="page", defaultValue = "0") int page) {
+    	
+    	Page<Reservation> reservations = reservationService.getList(page);
+    	
+    	int totalPage = reservations.getTotalPages();
+    	int currentPage = reservations.getNumber();
+    	int groupSize = 5;
+    	
+    	//현재 그룹번호
+    	int currentGroup = currentPage/groupSize;
+    	
+    	//그룹 시작, 끝
+    	int startPage = currentGroup*groupSize;
+    	int endPage = Math.min(startPage+groupSize-1,totalPage-1);
+    	
+    	//이전그룹, 다음그룹 여부
+    	boolean hasPreGroup = startPage>0;
+    	boolean hasNextGroup = endPage < totalPage-1;
+        
+    	
+    	model.addAttribute("reservations", reservations);
+    	model.addAttribute("startPage", startPage);
+    	model.addAttribute("endPage", endPage);
+    	model.addAttribute("hasPreGroup", hasPreGroup);
+    	model.addAttribute("hasNextGroup", hasNextGroup);
         return "reservation_list";
     }
 
