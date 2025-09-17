@@ -17,16 +17,13 @@ import lombok.Setter;
 public class ReservationForm {
 	
 	
-	private Long id;
-	
-	@Size(max=50)
-	private String username;
-	
-	@NotNull
-	@FutureOrPresent(message = "예약 날짜는 오늘 이후여야 합니다.")
-	private LocalDate rdate;
-	
-	@NotNull
-	private LocalTime rtime;
+	 private Long id;
 
+	 private String username;
+
+	 @NotNull(message = "예약 날짜를 입력하세요.")
+	 private LocalDate rdate;
+
+	 @NotNull(message = "예약 시간을 입력하세요.")
+	 private LocalTime rtime;
 }
