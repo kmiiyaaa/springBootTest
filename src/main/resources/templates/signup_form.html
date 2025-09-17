@@ -5,7 +5,12 @@
 	      <form th:action="@{/user/signup}" th:object="${userCreateForm}" method="post" class="reservation-form">
 
 	        <!-- 유효성 체크 에러 표시 -->
-	        <div th:replace="~{form_errors :: formErrorsFragment}" class="form-error"></div>
+	       <!--   <div th:replace="~{form_errors :: formErrorsFragment}" class="form-error"></div>-->
+	       <div th:fragment="formErrorsFragment" role="alert" th:if="${#fields.hasAnyErrors()}" class="form-error">
+			    <ul>
+			        <li th:each="err : ${#fields.allErrors()}" th:text="${err}"></li>
+			    </ul>
+			</div>
 
 	        <div class="form-group-horizontal">
 	          <label for="username">ID</label>
