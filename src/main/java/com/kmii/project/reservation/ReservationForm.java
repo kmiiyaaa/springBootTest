@@ -4,10 +4,9 @@ package com.kmii.project.reservation;
 import java.time.LocalDate;
 import java.time.LocalTime;
 
-import com.kmii.project.user.SiteUser;
-import com.sun.istack.NotNull;
 
 import jakarta.validation.constraints.FutureOrPresent;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
 import lombok.Setter;
