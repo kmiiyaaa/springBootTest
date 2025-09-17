@@ -51,7 +51,7 @@ public class BoardController {
 	public String detail(Model model, @PathVariable("bnum") Integer bnum, AnswerForm answerForm,
 			@RequestParam(value = "fromVote", required = false) boolean fromVote) {
 		
-		boardService.hit(boardService.getBoard(bnum)); // 조회수 증가
+	
 		
 		if(!fromVote) {
 			boardService.hit(boardService.getBoard(bnum));
@@ -61,7 +61,7 @@ public class BoardController {
 		Board board = boardService.getBoard(bnum);
 		model.addAttribute("board", board); 
 		
-		return String.format("redirect:/board/detail/%s?fromVote=true", bnum);	
+		return "board_detail"; 
 	}
 	
 	@PreAuthorize("isAuthenticated()")
