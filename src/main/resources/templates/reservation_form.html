@@ -5,6 +5,8 @@
 
 	        <form th:action="@{/reservation/create}" th:object="${reservationForm}" method="post" class="reservation-form">
 
+	            <input type="hidden" th:field="*{id}" /> <!-- 기존 예약 id 담기 -->
+	            
 	            <!-- 예약자 -->
 	            <div class="form-group">
 	                <label>예약자</label>

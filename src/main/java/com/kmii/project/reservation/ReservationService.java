@@ -64,17 +64,21 @@ public class ReservationService {
     		
     }
     
+    
+    
     //예약 수정
     public void modify(Reservation reservation, SiteUser user, LocalDateTime rtime) {
     	
     	reservation.setUser(user);
     	reservation.setRtime(rtime);
     	reservationRepository.save(reservation);
-    	
-    	
+
     }
 	
-	
+	//예약 삭제
+    public void delete(Reservation reservation) {
+    	reservationRepository.delete(reservation);
+    }
 	
 
 }

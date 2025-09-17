@@ -114,7 +114,7 @@ public class BoardController {
 	public String boardDelete(Principal principal, @PathVariable("bnum") Integer bnum) {
 		Board board = boardService.getBoard(bnum);
 		if(!board.getAuthor().getUsername().equals(principal.getName())) {
-			throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"삭제 권한이 없습니다" );
+
 		}
 		
 		boardService.delete(board);
