@@ -16,6 +16,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.kmii.project.DataNotFoundException;
 import com.kmii.project.user.SiteUser;
 import com.kmii.project.user.UserService;
 
@@ -48,6 +49,29 @@ public class ReservationService {
         reservation.setUser(user);
         reservation.setRtime(rtime);
         reservationRepository.save(reservation);
+    }
+    
+    //id 맞는예약 가져오기
+    public Reservation getReservation(Long id) {
+    	
+    	Optional<Reservation> rOptional = reservationRepository.findById(id);
+    	
+    	if(rOptional.isPresent()) {
+    		return rOptional.get();
+    	} else {
+    		throw new DataNotFoundException(null);
+    	}
+    		
+    }
+    
+    //예약 수정
+    public void modify(Reservation reservation, SiteUser user, LocalDateTime rtime) {
+    	
+    	reservation.setUser(user);
+    	reservation.setRtime(rtime);
+    	reservationRepository.save(reservation);
+    	
+    	
     }
 	
 	

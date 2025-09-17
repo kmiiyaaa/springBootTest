@@ -6,14 +6,17 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.http.HttpStatus;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.server.ResponseStatusException;
 
 import com.kmii.project.user.SiteUser;
 import com.kmii.project.user.UserService;
@@ -96,6 +99,25 @@ public class ReservationController {
     	model.addAttribute("hasPreGroup", hasPreGroup);
     	model.addAttribute("hasNextGroup", hasNextGroup);
         return "reservation_list";
+    }
+    
+    //예약 수정폼 이동
+    @PreAuthorize("isAuthenticated()")
+	@GetMapping(value="/modify/{id}")
+    public String reservationModify(Model model, ReservationForm reservationForm, @PathVariable("id") Long id ,
+    		Principal principal) {
+    	
+    	Reservation reservation = reservationService.getReservation(id);
+    	
+    	if(!reservation.getUser().getUsername().equals(principal.getName())){
+    		throw new ResponseStatusException(HttpStatus.BAD_REQUEST,"수정 권한 없음");
+    	}
+    	
+    	reservationForm.setUsername(reservation.getUser().getUsername());
+    	reservationForm.setRdate(reservation.getRtime().toLocalDate());
+    	reservationForm.setRtime(reservation.getRtime().toLocalTime());
+    	model.addAttribute("username", reservation.getUser().getUsername());
+    	return "reservation_form";
     }
 
 
