@@ -3,8 +3,10 @@
 	<div class="reservation-container">
 	        <h3>픽업 예약</h3>
 
-	       <form th:action="@{/reservation/modify/{id}(id=${reservationForm.id})}" th:object="${reservationForm}" method="post" 
-	       class="rservation-form">
+	       <form th:action="${reservationForm.id == null} ? @{/reservation/create} : @{/reservation/modify/{id}(id=${reservationForm.id})}"
+      th:object="${reservationForm}" 
+      method="post" 
+      class="rservation-form">
     
 			    <input type="hidden" th:field="*{id}" /> <!-- 기존 예약 id 담기 -->
 			

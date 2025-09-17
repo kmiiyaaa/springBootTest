@@ -48,14 +48,20 @@ public class BoardController {
 	}
 	
 	@GetMapping(value="/detail/{bnum}")
-	public String detail(Model model, @PathVariable("bnum") Integer bnum, AnswerForm answerForm) {
+	public String detail(Model model, @PathVariable("bnum") Integer bnum, AnswerForm answerForm,
+			@RequestParam(value = "fromVote", required = false) boolean fromVote) {
 		
 		boardService.hit(boardService.getBoard(bnum)); // 조회수 증가
+		
+		if(!fromVote) {
+			boardService.hit(boardService.getBoard(bnum));
+		}
+		
 		
 		Board board = boardService.getBoard(bnum);
 		model.addAttribute("board", board); 
 		
-		return "board_detail";		
+		return String.format("redirect:/board/detail/%s?fromVote=true", bnum);	
 	}
 	
 	@PreAuthorize("isAuthenticated()")
@@ -127,7 +133,8 @@ public class BoardController {
 		Board board = boardService.getBoard(bnum);
 		SiteUser siteUser = userService.getUser(principal.getName());
 		boardService.vote(board, siteUser);
-		return String.format("redirect:/board/detail/%s", bnum);
+		
+		return String.format("redirect:/board/detail/%s?fromVote=true", bnum);
 		
 		
 	}
