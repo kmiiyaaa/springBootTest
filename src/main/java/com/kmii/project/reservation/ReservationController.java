@@ -101,51 +101,59 @@ public class ReservationController {
         return "reservation_list";
     }
     
-    //예약 수정폼 이동
+ // 예약 수정폼 이동
     @PreAuthorize("isAuthenticated()")
-	@GetMapping(value="/modify/{id}")
-    public String showModifyForm(Model model, @PathVariable("id") Long id, Principal principal) {
+    @GetMapping("/modify/{id}")
+    public String showModifyForm(@PathVariable("id") Long id,
+                                 ReservationForm reservationForm,
+                                 Model model,
+                                 Principal principal) {
+
         Reservation reservation = reservationService.getReservation(id);
 
         if (!reservation.getUser().getUsername().equals(principal.getName())) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한 없음");
         }
 
-        ReservationForm reservationForm = new ReservationForm();
-        reservationForm.setId(reservation.getId()); // 여기서 id 담기
+        // 기존 데이터를 폼에 세팅
+        reservationForm.setId(reservation.getId());
         reservationForm.setUsername(reservation.getUser().getUsername());
         reservationForm.setRdate(reservation.getRtime().toLocalDate());
         reservationForm.setRtime(reservation.getRtime().toLocalTime());
 
-        model.addAttribute("reservationForm", reservationForm);
         model.addAttribute("username", reservation.getUser().getUsername());
         return "reservation_form";
     }
 
-    
+    // 예약 수정 처리
     @PreAuthorize("isAuthenticated()")
-	@PostMapping(value="/modify/{id}")
-    public String modifyReservation(@Valid ReservationForm reservationForm, BindingResult bindingResult,
-            Principal principal) {
+    @PostMapping("/modify/{id}")
+    public String modifyReservation(@Valid ReservationForm reservationForm,
+                                    BindingResult bindingResult,
+                                    Principal principal) {
 
-		if (bindingResult.hasErrors()) {
-		return "reservation_form";
-		}
-		
-		// id로 기존 예약 가져오기
-		Reservation reservation = reservationService.getReservation(reservationForm.getId());
-		
-		if (!reservation.getUser().getUsername().equals(principal.getName())) {
-		throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한 없음");
-		}
-		
-		SiteUser user = userService.getUser(reservationForm.getUsername());
-		LocalDateTime dateTime = LocalDateTime.of(reservationForm.getRdate(), reservationForm.getRtime());
-		
-		reservationService.modify(reservation, user, dateTime); // 기존 엔티티 수정
-		
-		return "redirect:/reservation/list";
-		}
+        if (bindingResult.hasErrors()) {
+            return "reservation_form";
+        }
+
+        // 1️⃣ 기존 예약 객체 조회
+        Reservation reservation = reservationService.getReservation(reservationForm.getId());
+
+        if (!reservation.getUser().getUsername().equals(principal.getName())) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "수정 권한 없음");
+        }
+
+        // 2️⃣ SiteUser 가져오기
+        SiteUser user = reservation.getUser(); // 수정 시 예약자는 그대로
+
+        // 3️⃣ LocalDate + LocalTime -> LocalDateTime
+        LocalDateTime dateTime = LocalDateTime.of(reservationForm.getRdate(), reservationForm.getRtime());
+
+        // 4️⃣ 기존 엔티티 수정
+        reservationService.modify(reservation, user, dateTime);
+
+        return "redirect:/reservation/list";
+    }
     
     
     @PreAuthorize("isAuthenticated()")

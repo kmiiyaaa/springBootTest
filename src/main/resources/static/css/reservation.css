@@ -2,7 +2,7 @@
 .reservation-container {
     max-width: 500px;
     margin: 40px auto;
-    padding: 25px 20px;
+    padding: 25px 20px 10px; 
     background: #fffaf6;
     border-radius: 12px;
     box-shadow: 0 6px 12px rgba(0,0,0,0.08);
@@ -35,37 +35,141 @@
     padding: 0;
 }
 
+/* 폼 전체 중앙 정렬 */
+.reservation-form {
+    max-width: 500px;
+    margin: 50px auto;
+    padding: 40px 30px;
+    background: #fff7f8;
+    border-radius: 15px;
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
 /* 폼 그룹 */
+
+.form-group {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+}
+
+.form-group label {
+    width: 92px;
+    text-align: right;
+    font-size: 16px;
+    color: #6b4c3b;
+}
+
+.form-group input {
+    width: 300px; /* ✅ 너비 제한 */
+    padding: 12px 20px;
+    border: 2px solid #ffd6d6;
+    border-radius: 12px;
+    font-family: 'Gaegu', cursive;
+    font-size: 16px;
+    text-align: center;
+    box-sizing: border-box;
+}
+
+.username-display {
+    width: 100px; /* ✅ 동일한 너비로 맞춤 */
+    padding: 12px 15px;
+    background: #fff0f5;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #a87c8c;
+    font-family: 'Gaegu', cursive;
+    border: 1px solid #ffd6d6;
+    text-align: center;
+}
+
 .reservation-form .form-group {
-    margin-bottom: 18px;
+    margin-bottom: 20px; /* 그룹 간 간격 */
+    display: flex;
+    flex-direction: column;
+    align-items: center; /* 라벨 + 입력창 중앙 정렬 */
+    width: 100%;
 }
+
+.custom-input {
+    position: relative;
+    width: 60%;
+    margin: 0 auto;   /* 중앙 정렬 */
+}
+
+.custom-input input {
+    width: 100%;
+    padding: 12px 40px 12px 12px; /* 오른쪽 아이콘 공간 확보 */
+    border-radius: 12px;
+    border: 2px solid #ffd6d6;
+    text-align: center;
+}
+
+.custom-input .icon {
+    position: absolute;
+    right: 12px;
+    top: 50%;
+    transform: translateY(-50%);
+    pointer-events: none; /* 아이콘 클릭 시 input 작동 */
+}
+
+/* 라벨 */
 .reservation-form label {
-    display: block;
-    margin-bottom: 6px;
-    font-weight: bold;
-    color: #555;
+    margin-bottom: 20px; /* 라벨과 입력창 사이 간격 */
+    font-weight: 500;
+    color: #6b4c3b;
+    font-family: 'Gaegu', cursive;
+    font-size: 16px;
+    text-align: center; /* 라벨 중앙 정렬 */
 }
+
+/* 입력창 */
 .reservation-form input[type="date"],
 .reservation-form input[type="time"] {
-    width: 100%;
-    padding: 10px;
-    border: 1px solid #ffe6d6;
-    border-radius: 8px;
-    font-family: sans-serif;
+    width: 80%;
+    padding: 14px 14px 14px 20px;
+    border: 2px solid #ffd6d6;
+    border-radius: 12px;
+    font-family: 'Gaegu', cursive;
     font-size: 16px;
+    background: #fff;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+    text-align: center; /* 입력값 중앙 정렬 */
+    align-items: center;
 }
+
+/* 포커스 효과 */
+.reservation-form input[type="date"]:focus,
+.reservation-form input[type="time"]:focus {
+    border-color: #ff8a8a;
+    box-shadow: 0 0 6px rgba(255, 138, 138, 0.4);
+    outline: none;
+}
+
+/* 예약자 표시 */
 .username-display {
     display: inline-block;
-    padding: 8px 12px;
-    background: #ffecf0;
-    border-radius: 8px;
-    font-weight: bold;
-    color: rgb(128, 128, 128);
+    width: 62%; /* 입력창과 동일하게 맞춤 */
+    padding: 14px;
+    background: #fff0f5;
+    border-radius: 12px;
+    font-weight: 600;
+    color: #a87c8c;
+    font-family: 'Gaegu', cursive;
+    border: 1px solid #ffd6d6;
+    box-sizing: border-box;
+    text-align: center;
 }
+
 
 /* 제출 버튼 */
 .submit-btn {
-    width: 80%;
+    width: 60%;
 	text-align: center;
     padding: 12px 0;
     background: #ffb6b9;
@@ -76,6 +180,7 @@
     border-radius: 10px;
     cursor: pointer;
     transition: background 0.3s;
+   
 	
 	/* 가운데 정렬 추가 */
 	    display: block;   /* 버튼을 블록 요소로 변경 */
